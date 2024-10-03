@@ -111,7 +111,7 @@ la clase **Inteligencia Artificial y Sistemas Expertos**, impartida por el profe
 ## Instrucciones de instalación
 
 1. Clona este repositorio en tu máquina local.
-2. 1Asegúrate de tener Python 3.x instalado.
+2. Asegúrate de tener Python 3.x instalado.
 3. Ejecuta el script para crear la base de datos y agregar algunas entidades y facturas de ejemplo.
 
 ## Próximos pasos
