@@ -1,4 +1,7 @@
+import tkinter as tk
+
 from config.database import initialize_db, close_db
+from mods.gui.main_window import MainWindow
 
 
 def main():
@@ -6,7 +9,12 @@ def main():
     connection = initialize_db()
 
     if connection:
-        # Close the database connection after initialization
+        # Initialize the main window for the GUI
+        root = tk.Tk()
+        app = MainWindow(root)
+        root.mainloop()
+
+        # Close the database connection after the GUI is closed
         close_db(connection)
 
 

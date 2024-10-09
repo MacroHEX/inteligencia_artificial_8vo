@@ -1,24 +1,98 @@
 import tkinter as tk
-from mods.gui.entity_window import launch_entity_window
-from mods.gui.invoice_window import launch_invoice_window
-from mods.gui.item_window import launch_item_window
+from tkinter import messagebox
+
+from PIL import Image, ImageTk  # Pillow library to resize images
+
+
+def open_entidad_module():
+    messagebox.showinfo("Entidad Module", "Open the Entidad module to manage entities.")
+    # Call your entity-related logic here
+
+
+def open_timbrado_module():
+    messagebox.showinfo("Timbrado Module", "Open the Timbrado module to manage timbrados.")
+    # Call your timbrado-related logic here
+
+
+def open_factura_module():
+    messagebox.showinfo("Factura Module", "Open the Factura module to create a new factura.")
+    # Call your factura-related logic here
+
+
+def open_producto_module():
+    messagebox.showinfo("Producto Module", "Open the Producto module to manage products.")
+    # Call your producto-related logic here
+
+
+def open_qr_module():
+    messagebox.showinfo("QR Module", "Open the QR module to manage QR codes.")
+    # Call your QR-related logic here
 
 
 class MainWindow:
     def __init__(self, root):
         self.root = root
-        self.root.title("Facturación Digital")
-        self.root.geometry("400x300")
+        self.root.title("Factura Martin Medina")
+        self.root.geometry("950x800")
+        self.root.resizable(False, False)
+        self.root.configure(bg="lightgray")
 
-        # Buttons to open other windows
-        self.entity_button = tk.Button(self.root, text="Administrar Entidades}", command=launch_entity_window)
-        self.entity_button.pack(pady=10)
+        # Load and resize images for buttons
+        self.entidad_image = self.resize_image("assets/imgs/entities.png", 256, 256)
+        self.timbrado_image = self.resize_image("assets/imgs/timbrado.png", 256, 256)
+        self.factura_image = self.resize_image("assets/imgs/invoice.png", 256, 256)
+        self.producto_image = self.resize_image("assets/imgs/product.png", 256, 256)
+        self.qr_image = self.resize_image("assets/imgs/qr.png", 256, 256)
+        self.exit_image = self.resize_image("assets/imgs/exit.png", 256, 256)  # New exit button image
 
-        self.invoice_button = tk.Button(self.root, text="Administrar Facturas", command=launch_invoice_window)
-        self.invoice_button.pack(pady=10)
+        # Title label
+        self.title_label = tk.Label(self.root, text="Factura Martin Medina", font=("Arial", 16), bg="lightgray")
+        self.title_label.pack(pady=20)
+
+        # Frame to hold the buttons in a grid layout
+        self.button_frame = tk.Frame(self.root, bg="lightgray")
+        self.button_frame.pack(pady=20)
+        # Create buttons with images in a 2x3 grid
+
+        self.timbrado_button = tk.Button(self.button_frame, text="Timbrado", image=self.timbrado_image,
+                                         compound="top", command=open_timbrado_module)
+        self.timbrado_button.grid(row=0, column=0, padx=10, pady=10)
+
+        self.entidad_button = tk.Button(self.button_frame, text="Entidades", image=self.entidad_image,
+                                        compound="top", command=open_entidad_module)
+        self.entidad_button.grid(row=0, column=1, padx=10, pady=10)
+
+        self.producto_button = tk.Button(self.button_frame, text="Productos", image=self.producto_image,
+                                         compound="top", command=open_producto_module)
+        self.producto_button.grid(row=0, column=2, padx=10, pady=10)
+
+        self.factura_button = tk.Button(self.button_frame, text="Factura", image=self.factura_image,
+                                        compound="top", command=open_factura_module)
+        self.factura_button.grid(row=1, column=0, padx=10, pady=10)
+
+        self.qr_button = tk.Button(self.button_frame, text="QR", image=self.qr_image, compound="top",
+                                   command=open_qr_module)
+        self.qr_button.grid(row=1, column=1, padx=10, pady=10)
+
+        self.exit_button = tk.Button(self.button_frame, text="Salir", image=self.exit_image, compound="top",
+                                     command=self.root.quit)
+        self.exit_button.grid(row=1, column=2, padx=10, pady=10)
+
+    def resize_image(self, image_path, width, height):
+        """
+        Resizes the image to fit within the buttons.
+        :param image_path: Path to the image file.
+        :param width: Desired width.
+        :param height: Desired height.
+        :return: Resized PhotoImage.
+        """
+        image = Image.open(image_path)
+        image = image.resize((width, height), Image.LANCZOS)  # Use LANCZOS for high-quality resizing
+        return ImageTk.PhotoImage(image)
 
 
-def launch_main_window():
+# To run the main window
+if __name__ == "__main__":
     root = tk.Tk()
     app = MainWindow(root)
     root.mainloop()
