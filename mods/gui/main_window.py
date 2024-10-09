@@ -4,6 +4,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 
 from mods.gui.entidad_window import EntidadWindow
+from mods.gui.timbrado_window import TimbradoWindow
 
 
 def open_entidad_module(entidad_service):
@@ -12,9 +13,10 @@ def open_entidad_module(entidad_service):
     EntidadWindow(entidad_window, entidad_service)  # Pass the EntidadService to the EntidadWindow
 
 
-def open_timbrado_module():
-    messagebox.showinfo("Timbrado Module", "Open the Timbrado module to manage timbrados.")
-    # Call your timbrado-related logic here
+def open_timbrado_module(timbrado_service):
+    """Opens the Timbrado module window."""
+    timbrado_window = tk.Toplevel()  # Create a new Toplevel window for Timbrado
+    TimbradoWindow(timbrado_window, timbrado_service)  # Pass the TimbradoService to the TimbradoWindow
 
 
 def open_factura_module():
@@ -33,13 +35,14 @@ def open_qr_module():
 
 
 class MainWindow:
-    def __init__(self, root, entidad_service):
+    def __init__(self, root, entidad_service, timbrado_service):
         self.root = root
         self.root.title("Factura Martin Medina")
         self.root.geometry("950x800")
         self.root.resizable(False, False)
         self.root.configure(bg="lightgray")
         self.entidad_service = entidad_service  # Store the EntidadService instance
+        self.timbrado_service = timbrado_service  # Store the TimbradoService instance
 
         # Load and resize images for buttons
         self.entidad_image = self.resize_image("assets/imgs/entities.png", 256, 256)
@@ -63,7 +66,7 @@ class MainWindow:
         self.entidad_button.grid(row=0, column=0, padx=10, pady=10)
 
         self.timbrado_button = tk.Button(self.button_frame, text="Timbrado", image=self.timbrado_image,
-                                         compound="top", command=open_timbrado_module)
+                                         compound="top", command=lambda: open_timbrado_module(self.timbrado_service))
         self.timbrado_button.grid(row=0, column=1, padx=10, pady=10)
 
         self.factura_button = tk.Button(self.button_frame, text="Factura", image=self.factura_image,
