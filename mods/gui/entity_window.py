@@ -3,6 +3,31 @@ from tkinter import messagebox, simpledialog
 from mods.entities.service.entity_service import register_person, register_business, get_entities, remove_entity
 
 
+def save_person(name, cedula, ruc, codigo_verificador, email, address, phone_number):
+    try:
+        register_person(name, cedula, ruc, codigo_verificador, email, address, phone_number)
+        messagebox.showinfo("Success", f"Person '{name}' added successfully!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to add person: {str(e)}")
+
+
+def save_business(name, ruc, codigo_verificador, email, address, phone_number):
+    try:
+        register_business(name, ruc, codigo_verificador, email, address, phone_number)
+        messagebox.showinfo("Success", f"Business '{name}' added successfully!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to add business: {str(e)}")
+
+
+def delete_entity():
+    entity_id = simpledialog.askstring("Input", "Enter the ID of the entity to delete:")
+    try:
+        remove_entity(int(entity_id))
+        messagebox.showinfo("Success", f"Entity with ID {entity_id} deleted successfully!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to delete entity: {str(e)}")
+
+
 class EntityWindow:
     def __init__(self, root):
         self.root = root
@@ -55,18 +80,11 @@ class EntityWindow:
 
         # Submit button
         submit_button = tk.Button(add_window, text="Submit",
-                                  command=lambda: self.save_person(name_entry.get(), cedula_entry.get(),
-                                                                   ruc_entry.get(),
-                                                                   verif_entry.get(), email_entry.get(),
-                                                                   address_entry.get(), phone_entry.get()))
+                                  command=lambda: save_person(name_entry.get(), cedula_entry.get(),
+                                                              ruc_entry.get(),
+                                                              verif_entry.get(), email_entry.get(),
+                                                              address_entry.get(), phone_entry.get()))
         submit_button.pack(pady=10)
-
-    def save_person(self, name, cedula, ruc, codigo_verificador, email, address, phone_number):
-        try:
-            register_person(name, cedula, ruc, codigo_verificador, email, address, phone_number)
-            messagebox.showinfo("Success", f"Person '{name}' added successfully!")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to add person: {str(e)}")
 
     def add_business(self):
         add_window = tk.Toplevel(self.root)
@@ -98,17 +116,10 @@ class EntityWindow:
         phone_entry.pack()
 
         submit_button = tk.Button(add_window, text="Submit",
-                                  command=lambda: self.save_business(name_entry.get(), ruc_entry.get(),
-                                                                     verif_entry.get(), email_entry.get(),
-                                                                     address_entry.get(), phone_entry.get()))
+                                  command=lambda: save_business(name_entry.get(), ruc_entry.get(),
+                                                                verif_entry.get(), email_entry.get(),
+                                                                address_entry.get(), phone_entry.get()))
         submit_button.pack(pady=10)
-
-    def save_business(self, name, ruc, codigo_verificador, email, address, phone_number):
-        try:
-            register_business(name, ruc, codigo_verificador, email, address, phone_number)
-            messagebox.showinfo("Success", f"Business '{name}' added successfully!")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to add business: {str(e)}")
 
     def view_all_entities(self):
         entities = get_entities()
@@ -118,14 +129,6 @@ class EntityWindow:
 
         for entity in entities:
             tk.Label(view_window, text=str(entity)).pack()
-
-    def delete_entity(self):
-        entity_id = simpledialog.askstring("Input", "Enter the ID of the entity to delete:")
-        try:
-            remove_entity(int(entity_id))
-            messagebox.showinfo("Success", f"Entity with ID {entity_id} deleted successfully!")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to delete entity: {str(e)}")
 
 
 def launch_entity_window():
