@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="facturacion" uuid="9c785b8c-6478-48a0-aadc-e8011707029a">
+    <data-source source="LOCAL" name="facturacion" uuid="6ceef0c4-7a0a-4983-a4ef-f0eefe25a7ef">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:F:\Estudios\8vo Semestre\Inteligencia Artificial y Sistemas Expertos\Factura\facturacion.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:F:\Facultad\8vo Semestre\Inteligencia Artificial y Sistemas Expertos\inteligencia_artificial_8vo\facturacion.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

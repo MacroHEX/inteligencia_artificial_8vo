@@ -5,7 +5,7 @@ from mods.entidad.repository.entidad_repository import EntidadRepository
 from mods.factura.repository.factura_repository import FacturaRepository
 from mods.impuesto.repository.impuesto_repository import ImpuestoRepository
 from mods.pagos.repository.pago_repository import PagoRepository
-from mods.producto.repository.productos_repository import ProductoRepository
+from mods.producto.repository.producto_repository import ProductoRepository
 from mods.qr.repository.qr_repository import QRCodeRepository
 from mods.timbrado.repository.timbrado_repository import TimbradoRepository
 

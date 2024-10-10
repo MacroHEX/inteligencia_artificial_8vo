@@ -1,5 +1,5 @@
-from mods.producto.model.productos_entity import Producto
-from mods.producto.repository.productos_repository import ProductoRepository
+from mods.producto.model.producto_entity import Producto
+from mods.producto.repository.producto_repository import ProductoRepository
 
 
 class ProductoService:
