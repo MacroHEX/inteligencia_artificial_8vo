@@ -11,7 +11,7 @@ class TimbradoRepository:
                     numero_timbrado TEXT NOT NULL,
                     establecimiento TEXT NOT NULL,
                     punto_expedicion TEXT NOT NULL,
-                    numero_documento TEXT NOT NULL,
+                    numero_documento INTEGER NOT NULL,
                     fecha_inicio TEXT NOT NULL
                 );
             ''')
@@ -21,8 +21,14 @@ class TimbradoRepository:
             self.connection.execute('''
                 INSERT INTO timbrado (tipo_de_documento, numero_timbrado, establecimiento, punto_expedicion, numero_documento, fecha_inicio)
                 VALUES (?, ?, ?, ?, ?, ?);
-            ''', (timbrado.tipo_de_documento, timbrado.numero_timbrado, timbrado.establecimiento,
-                  timbrado.punto_expedicion, timbrado.numero_documento, timbrado.fecha_inicio))
+            ''', (
+                timbrado.tipo_de_documento,  # Ensure this is a string
+                timbrado.numero_timbrado,  # Ensure this is a string
+                timbrado.establecimiento,  # Ensure this is a string
+                timbrado.punto_expedicion,  # Ensure this is a string
+                timbrado.numero_documento,  # Ensure this is handled correctly (string or int based on type)
+                timbrado.fecha_inicio  # Ensure this is a string representing the date
+            ))
 
     def get_all(self):
         cursor = self.connection.execute('SELECT * FROM timbrado')
@@ -32,14 +38,15 @@ class TimbradoRepository:
         cursor = self.connection.execute('SELECT * FROM timbrado WHERE id = ?', (timbrado_id,))
         return cursor.fetchone()
 
-    def update(self, timbrado_id, timbrado):
+    def update(self, timbrado_id, tipo_de_documento, numero_timbrado, establecimiento, punto_expedicion,
+               numero_documento, fecha_inicio):
         with self.connection:
             self.connection.execute('''
                 UPDATE timbrado
                 SET tipo_de_documento = ?, numero_timbrado = ?, establecimiento = ?, punto_expedicion = ?, numero_documento = ?, fecha_inicio = ?
                 WHERE id = ?;
-            ''', (timbrado.tipo_de_documento, timbrado.numero_timbrado, timbrado.establecimiento,
-                  timbrado.punto_expedicion, timbrado.numero_documento, timbrado.fecha_inicio, timbrado_id))
+            ''', (tipo_de_documento, numero_timbrado, establecimiento, punto_expedicion, numero_documento, fecha_inicio,
+                  timbrado_id))
 
     def delete(self, timbrado_id):
         with self.connection:

@@ -19,10 +19,14 @@ class FacturaRepository:
 
     def insert(self, factura):
         with self.connection:
-            self.connection.execute('''
-                INSERT INTO facturas (fecha_emision, entidad_id, timbrado_id, total, estado)
-                VALUES (?, ?, ?, ?, ?);
-            ''', (factura.fecha_emision, factura.entidad_id, factura.timbrado_id, factura.total, factura.estado))
+            cursor = self.connection.cursor()
+            cursor.execute('''
+                   INSERT INTO facturas (fecha_emision, entidad_id, timbrado_id, total, estado)
+                   VALUES (?, ?, ?, ?, ?);
+               ''', (factura.fecha_emision, factura.entidad_id, factura.timbrado_id, factura.total, factura.estado))
+
+            # Return the generated factura_id (last inserted row ID)
+            return cursor.lastrowid
 
     def get_all(self):
         cursor = self.connection.execute('SELECT * FROM facturas')
@@ -39,7 +43,8 @@ class FacturaRepository:
                 SET fecha_emision = ?, entidad_id = ?, timbrado_id = ?, total = ?, estado = ?
                 WHERE id = ?;
             ''', (
-            factura.fecha_emision, factura.entidad_id, factura.timbrado_id, factura.total, factura.estado, factura_id))
+                factura.fecha_emision, factura.entidad_id, factura.timbrado_id, factura.total, factura.estado,
+                factura_id))
 
     def delete(self, factura_id):
         with self.connection:
