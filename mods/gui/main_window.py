@@ -4,6 +4,8 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 
 from mods.gui.entidad_window import EntidadWindow
+from mods.gui.factura_window import FacturaWindow
+from mods.gui.producto_window import ProductoWindow
 from mods.gui.timbrado_window import TimbradoWindow
 
 
@@ -19,14 +21,16 @@ def open_timbrado_module(timbrado_service):
     TimbradoWindow(timbrado_window, timbrado_service)  # Pass the TimbradoService to the TimbradoWindow
 
 
-def open_factura_module():
-    messagebox.showinfo("Factura Module", "Open the Factura module to create a new factura.")
-    # Call your factura-related logic here
+def open_factura_module(factura_service, detalle_factura_service, producto_service, entidad_service, timbrado_service):
+    """Opens the Factura module window."""
+    factura_window = tk.Toplevel()  # Create a new Toplevel window for Factura
+    FacturaWindow(factura_window, factura_service, detalle_factura_service, producto_service, entidad_service,
+                  timbrado_service)  # Pass all the required services
 
 
-def open_producto_module():
-    messagebox.showinfo("Producto Module", "Open the Producto module to manage products.")
-    # Call your producto-related logic here
+def open_producto_module(producto_service):
+    timbrado_window = tk.Toplevel()  # Create a new Toplevel window for Producto
+    ProductoWindow(timbrado_window, producto_service)  # Pass the ProductoService to the ProductoWindow
 
 
 def open_qr_module():
@@ -35,7 +39,8 @@ def open_qr_module():
 
 
 class MainWindow:
-    def __init__(self, root, entidad_service, timbrado_service):
+    def __init__(self, root, entidad_service, timbrado_service, producto_service, factura_service,
+                 detalle_factura_service):
         self.root = root
         self.root.title("Factura Martin Medina")
         self.root.geometry("950x800")
@@ -43,6 +48,9 @@ class MainWindow:
         self.root.configure(bg="lightgray")
         self.entidad_service = entidad_service  # Store the EntidadService instance
         self.timbrado_service = timbrado_service  # Store the TimbradoService instance
+        self.producto_service = producto_service  # Store the ProductoService instance
+        self.factura_service = factura_service
+        self.detalle_factura_service = detalle_factura_service
 
         # Load and resize images for buttons
         self.entidad_image = self.resize_image("assets/imgs/entities.png", 256, 256)
@@ -70,11 +78,13 @@ class MainWindow:
         self.timbrado_button.grid(row=0, column=1, padx=10, pady=10)
 
         self.factura_button = tk.Button(self.button_frame, text="Factura", image=self.factura_image,
-                                        compound="top", command=open_factura_module)
+                                        compound="top", command=lambda: open_factura_module(
+                self.factura_service, self.detalle_factura_service,
+                self.producto_service, self.entidad_service, self.timbrado_service))
         self.factura_button.grid(row=0, column=2, padx=10, pady=10)
 
         self.producto_button = tk.Button(self.button_frame, text="Productos", image=self.producto_image,
-                                         compound="top", command=open_producto_module)
+                                         compound="top", command=lambda: open_producto_module(self.producto_service))
         self.producto_button.grid(row=1, column=0, padx=10, pady=10)
 
         self.qr_button = tk.Button(self.button_frame, text="QR", image=self.qr_image, compound="top",
