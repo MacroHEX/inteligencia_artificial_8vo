@@ -71,12 +71,12 @@ class TimbradoWindow:
 
     def search_timbrado(self):
         """Search for a timbrado by ID and display its details."""
-        timbrado_id = self.search_entry.get()
-        if not timbrado_id.isdigit():
+        timbrado_id_med = self.search_entry.get()
+        if not timbrado_id_med.isdigit():
             messagebox.showerror("Invalid Input", "Please enter a valid ID.")
             return
 
-        timbrado = self.service.get_timbrado_by_id(int(timbrado_id))
+        timbrado = self.service.get_timbrado_by_id(int(timbrado_id_med))
         if timbrado:
             self.tree.delete(*self.tree.get_children())  # Clear the table
             self.tree.insert('', 'end', values=timbrado)  # Insert the search result
@@ -129,21 +129,21 @@ class TimbradoWindow:
     def add_timbrado(self):
         """Add a new timbrado to the database."""
         # Get values from input fields
-        tipo_de_documento = self.entries["tipo_de_documento"].get()
-        numero_timbrado = self.entries["número_timbrado"].get()
-        establecimiento = self.entries["establecimiento"].get()
-        punto_expedicion = self.entries["punto_expedición"].get()
-        numero_documento = self.entries["número_documento"].get()
-        fecha_inicio = self.entries["fecha_inicio"].get()
+        tipo_de_documento_med = self.entries["tipo_de_documento_med"].get()
+        numero_timbrado_med = self.entries["número_timbrado"].get()
+        establecimiento_med = self.entries["establecimiento_med"].get()
+        punto_expedicion_med = self.entries["punto_expedición"].get()
+        numero_documento_med = self.entries["número_documento"].get()
+        fecha_inicio_med = self.entries["fecha_inicio_med"].get()
 
         # Validate required fields
-        if not tipo_de_documento or not numero_timbrado:
+        if not tipo_de_documento_med or not numero_timbrado_med:
             messagebox.showerror("Error", "Tipo de Documento and Número Timbrado are required.")
             return
 
         # Create the timbrado
-        self.service.create_timbrado(tipo_de_documento, numero_timbrado, establecimiento, punto_expedicion,
-                                     numero_documento, fecha_inicio)
+        self.service.create_timbrado(tipo_de_documento_med, numero_timbrado_med, establecimiento_med, punto_expedicion_med,
+                                     numero_documento_med, fecha_inicio_med)
         messagebox.showinfo("Success", "Timbrado added successfully.")
         self.load_all_timbrados()
         self.new_window.destroy()
@@ -155,11 +155,11 @@ class TimbradoWindow:
             messagebox.showerror("Error", "Please select a timbrado to update.")
             return
 
-        timbrado_id = self.tree.item(selected_entity)["values"][0]  # Get the ID from the selected row
+        timbrado_id_med = self.tree.item(selected_entity)["values"][0]  # Get the ID from the selected row
         self.update_window = tk.Toplevel(self.root)
         self.update_window.title("Actualizar Timbrado")
 
-        timbrado = self.service.get_timbrado_by_id(timbrado_id)
+        timbrado = self.service.get_timbrado_by_id(timbrado_id_med)
 
         labels = ["Tipo de Documento", "Número Timbrado", "Establecimiento", "Punto Expedición", "Número Documento",
                   "Fecha Inicio"]
@@ -190,27 +190,27 @@ class TimbradoWindow:
 
         # Update button
         self.update_button = tk.Button(self.update_window, text="Actualizar",
-                                       command=lambda: self.update_timbrado(timbrado_id), font=("Arial", 12),
+                                       command=lambda: self.update_timbrado(timbrado_id_med), font=("Arial", 12),
                                        bg="#f0ad4e", fg="white")
         self.update_button.grid(row=len(labels), column=1, padx=10, pady=10)
 
-    def update_timbrado(self, timbrado_id):
+    def update_timbrado(self, timbrado_id_med):
         """Update the selected timbrado."""
-        tipo_de_documento = self.update_entries["tipo_de_documento"].get()
-        numero_timbrado = self.update_entries["número_timbrado"].get()
-        establecimiento = self.update_entries["establecimiento"].get()
-        punto_expedicion = self.update_entries["punto_expedición"].get()
-        numero_documento = self.update_entries["número_documento"].get()
-        fecha_inicio = self.update_entries["fecha_inicio"].get()
+        tipo_de_documento_med = self.update_entries["tipo_de_documento_med"].get()
+        numero_timbrado_med = self.update_entries["número_timbrado"].get()
+        establecimiento_med = self.update_entries["establecimiento_med"].get()
+        punto_expedicion_med = self.update_entries["punto_expedición"].get()
+        numero_documento_med = self.update_entries["número_documento"].get()
+        fecha_inicio_med = self.update_entries["fecha_inicio_med"].get()
 
         # Validate required fields
-        if not tipo_de_documento or not numero_timbrado:
+        if not tipo_de_documento_med or not numero_timbrado_med:
             messagebox.showerror("Error", "Tipo de Documento and Número Timbrado are required.")
             return
 
         # Update the timbrado
-        self.service.update_timbrado(timbrado_id, tipo_de_documento, numero_timbrado, establecimiento, punto_expedicion,
-                                     numero_documento, fecha_inicio)
+        self.service.update_timbrado(timbrado_id_med, tipo_de_documento_med, numero_timbrado_med, establecimiento_med, punto_expedicion_med,
+                                     numero_documento_med, fecha_inicio_med)
         messagebox.showinfo("Success", "Timbrado updated successfully.")
         self.load_all_timbrados()
         self.update_window.destroy()
@@ -222,7 +222,7 @@ class TimbradoWindow:
             messagebox.showerror("Error", "Please select a timbrado to delete.")
             return
 
-        timbrado_id = self.tree.item(selected_entity)["values"][0]
-        self.service.delete_timbrado(timbrado_id)
+        timbrado_id_med = self.tree.item(selected_entity)["values"][0]
+        self.service.delete_timbrado(timbrado_id_med)
         messagebox.showinfo("Success", "Timbrado deleted successfully.")
         self.load_all_timbrados()
