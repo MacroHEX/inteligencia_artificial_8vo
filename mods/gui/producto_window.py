@@ -68,12 +68,12 @@ class ProductoWindow:
 
     def search_producto(self):
         """Search for a producto by ID and display its details."""
-        producto_id = self.search_entry.get()
-        if not producto_id.isdigit():
+        producto_id_med = self.search_entry.get()
+        if not producto_id_med.isdigit():
             messagebox.showerror("Invalid Input", "Please enter a valid ID.")
             return
 
-        producto = self.service.get_producto_by_id(int(producto_id))
+        producto = self.service.get_producto_by_id(int(producto_id_med))
         if producto:
             self.tree.delete(*self.tree.get_children())  # Clear the table
             self.tree.insert('', 'end', values=producto)  # Insert the search result
@@ -110,19 +110,19 @@ class ProductoWindow:
     def add_producto(self):
         """Add a new producto to the database."""
         # Get values from input fields
-        codigo_interno = self.entries["código_interno"].get()
-        nombre = self.entries["nombre"].get()
-        descripcion = self.entries["descripción"].get()
-        precio = self.entries["precio"].get()
-        stock = self.entries["stock"].get()
+        codigo_interno_med = self.entries["código_interno"].get()
+        nombre_med = self.entries["nombre_med"].get()
+        descripcion_med = self.entries["descripción"].get()
+        precio_med = self.entries["precio_med"].get()
+        stock_med = self.entries["stock_med"].get()
 
         # Validate required fields
-        if not codigo_interno or not nombre or not precio or not stock:
+        if not codigo_interno_med or not nombre_med or not precio_med or not stock_med:
             messagebox.showerror("Error", "Código Interno, Nombre, Precio, and Stock are required.")
             return
 
         # Create the producto
-        self.service.create_producto(codigo_interno, nombre, descripcion, float(precio), int(stock))
+        self.service.create_producto(codigo_interno_med, nombre_med, descripcion_med, float(precio_med), int(stock_med))
         messagebox.showinfo("Success", "Producto added successfully.")
         self.load_all_productos()
         self.new_window.destroy()
@@ -134,11 +134,11 @@ class ProductoWindow:
             messagebox.showerror("Error", "Please select a producto to update.")
             return
 
-        producto_id = self.tree.item(selected_entity)["values"][0]  # Get the ID from the selected row
+        producto_id_med = self.tree.item(selected_entity)["values"][0]  # Get the ID from the selected row
         self.update_window = tk.Toplevel(self.root)
         self.update_window.title("Actualizar Producto")
 
-        producto = self.service.get_producto_by_id(producto_id)
+        producto = self.service.get_producto_by_id(producto_id_med)
 
         labels = ["Código Interno", "Nombre", "Descripción", "Precio", "Stock"]
         self.update_entries = {}
@@ -151,32 +151,32 @@ class ProductoWindow:
 
         # Pre-fill the fields with existing producto data
         self.update_entries["código_interno"].insert(0, producto[1])
-        self.update_entries["nombre"].insert(0, producto[2])
+        self.update_entries["nombre_med"].insert(0, producto[2])
         self.update_entries["descripción"].insert(0, producto[3])
-        self.update_entries["precio"].insert(0, producto[4])
-        self.update_entries["stock"].insert(0, producto[5])
+        self.update_entries["precio_med"].insert(0, producto[4])
+        self.update_entries["stock_med"].insert(0, producto[5])
 
         # Update button
         self.update_button = tk.Button(self.update_window, text="Actualizar",
-                                       command=lambda: self.update_producto(producto_id), font=("Arial", 12),
+                                       command=lambda: self.update_producto(producto_id_med), font=("Arial", 12),
                                        bg="#f0ad4e", fg="white")
         self.update_button.grid(row=len(labels), column=1, padx=10, pady=10)
 
-    def update_producto(self, producto_id):
+    def update_producto(self, producto_id_med):
         """Update the selected producto."""
-        codigo_interno = self.update_entries["código_interno"].get()
-        nombre = self.update_entries["nombre"].get()
-        descripcion = self.update_entries["descripción"].get()
-        precio = self.update_entries["precio"].get()
-        stock = self.update_entries["stock"].get()
+        codigo_interno_med = self.update_entries["código_interno"].get()
+        nombre_med = self.update_entries["nombre_med"].get()
+        descripcion_med = self.update_entries["descripción"].get()
+        precio_med = self.update_entries["precio_med"].get()
+        stock_med = self.update_entries["stock_med"].get()
 
         # Validate required fields
-        if not codigo_interno or not nombre or not precio or not stock:
+        if not codigo_interno_med or not nombre_med or not precio_med or not stock_med:
             messagebox.showerror("Error", "Código Interno, Nombre, Precio, and Stock are required.")
             return
 
         # Update the producto
-        self.service.update_producto(producto_id, codigo_interno, nombre, descripcion, float(precio), int(stock))
+        self.service.update_producto(producto_id_med, codigo_interno_med, nombre_med, descripcion_med, float(precio_med), int(stock_med))
         messagebox.showinfo("Success", "Producto updated successfully.")
         self.load_all_productos()
         self.update_window.destroy()
@@ -188,7 +188,7 @@ class ProductoWindow:
             messagebox.showerror("Error", "Please select a producto to delete.")
             return
 
-        producto_id = self.tree.item(selected_entity)["values"][0]
-        self.service.delete_producto(producto_id)
+        producto_id_med = self.tree.item(selected_entity)["values"][0]
+        self.service.delete_producto(producto_id_med)
         messagebox.showinfo("Success", "Producto deleted successfully.")
         self.load_all_productos()

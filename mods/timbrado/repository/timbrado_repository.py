@@ -7,47 +7,47 @@ class TimbradoRepository:
             self.connection.execute('''
                 CREATE TABLE IF NOT EXISTS timbrado (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    tipo_de_documento TEXT NOT NULL,
-                    numero_timbrado TEXT NOT NULL,
-                    establecimiento TEXT NOT NULL,
-                    punto_expedicion TEXT NOT NULL,
-                    numero_documento INTEGER NOT NULL,
-                    fecha_inicio TEXT NOT NULL
+                    tipo_de_documento_med TEXT NOT NULL,
+                    numero_timbrado_med TEXT NOT NULL,
+                    establecimiento_med TEXT NOT NULL,
+                    punto_expedicion_med TEXT NOT NULL,
+                    numero_documento_med INTEGER NOT NULL,
+                    fecha_inicio_med TEXT NOT NULL
                 );
             ''')
 
     def insert(self, timbrado):
         with self.connection:
             self.connection.execute('''
-                INSERT INTO timbrado (tipo_de_documento, numero_timbrado, establecimiento, punto_expedicion, numero_documento, fecha_inicio)
+                INSERT INTO timbrado (tipo_de_documento_med, numero_timbrado_med, establecimiento_med, punto_expedicion_med, numero_documento_med, fecha_inicio_med)
                 VALUES (?, ?, ?, ?, ?, ?);
             ''', (
-                timbrado.tipo_de_documento,  # Ensure this is a string
-                timbrado.numero_timbrado,  # Ensure this is a string
-                timbrado.establecimiento,  # Ensure this is a string
-                timbrado.punto_expedicion,  # Ensure this is a string
-                timbrado.numero_documento,  # Ensure this is handled correctly (string or int based on type)
-                timbrado.fecha_inicio  # Ensure this is a string representing the date
+                timbrado.tipo_de_documento_med,  # Ensure this is a string
+                timbrado.numero_timbrado_med,  # Ensure this is a string
+                timbrado.establecimiento_med,  # Ensure this is a string
+                timbrado.punto_expedicion_med,  # Ensure this is a string
+                timbrado.numero_documento_med,  # Ensure this is handled correctly (string or int based on type)
+                timbrado.fecha_inicio_med  # Ensure this is a string representing the date
             ))
 
     def get_all(self):
         cursor = self.connection.execute('SELECT * FROM timbrado')
         return cursor.fetchall()
 
-    def get_by_id(self, timbrado_id):
-        cursor = self.connection.execute('SELECT * FROM timbrado WHERE id = ?', (timbrado_id,))
+    def get_by_id(self, timbrado_id_med):
+        cursor = self.connection.execute('SELECT * FROM timbrado WHERE id = ?', (timbrado_id_med,))
         return cursor.fetchone()
 
-    def update(self, timbrado_id, tipo_de_documento, numero_timbrado, establecimiento, punto_expedicion,
-               numero_documento, fecha_inicio):
+    def update(self, timbrado_id_med, tipo_de_documento_med, numero_timbrado_med, establecimiento_med, punto_expedicion_med,
+               numero_documento_med, fecha_inicio_med):
         with self.connection:
             self.connection.execute('''
                 UPDATE timbrado
-                SET tipo_de_documento = ?, numero_timbrado = ?, establecimiento = ?, punto_expedicion = ?, numero_documento = ?, fecha_inicio = ?
+                SET tipo_de_documento_med = ?, numero_timbrado_med = ?, establecimiento_med = ?, punto_expedicion_med = ?, numero_documento_med = ?, fecha_inicio_med = ?
                 WHERE id = ?;
-            ''', (tipo_de_documento, numero_timbrado, establecimiento, punto_expedicion, numero_documento, fecha_inicio,
-                  timbrado_id))
+            ''', (tipo_de_documento_med, numero_timbrado_med, establecimiento_med, punto_expedicion_med, numero_documento_med, fecha_inicio_med,
+                  timbrado_id_med))
 
-    def delete(self, timbrado_id):
+    def delete(self, timbrado_id_med):
         with self.connection:
-            self.connection.execute('DELETE FROM timbrado WHERE id = ?', (timbrado_id,))
+            self.connection.execute('DELETE FROM timbrado WHERE id = ?', (timbrado_id_med,))

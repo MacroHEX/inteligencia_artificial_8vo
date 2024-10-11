@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import messagebox
 
 from PIL import Image, ImageTk
 
@@ -33,11 +32,6 @@ def open_producto_module(producto_service):
     ProductoWindow(timbrado_window, producto_service)  # Pass the ProductoService to the ProductoWindow
 
 
-def open_qr_module():
-    messagebox.showinfo("QR Module", "Open the QR module to manage QR codes.")
-    # Call your QR-related logic here
-
-
 class MainWindow:
     def __init__(self, root, entidad_service, timbrado_service, producto_service, factura_service,
                  detalle_factura_service):
@@ -46,6 +40,9 @@ class MainWindow:
         self.root.geometry("950x800")
         self.root.resizable(False, False)
         self.root.configure(bg="lightgray")
+
+        self.create_custom_title()
+
         self.entidad_service = entidad_service  # Store the EntidadService instance
         self.timbrado_service = timbrado_service  # Store the TimbradoService instance
         self.producto_service = producto_service  # Store the ProductoService instance
@@ -57,12 +54,7 @@ class MainWindow:
         self.timbrado_image = self.resize_image("assets/imgs/timbrado.png", 256, 256)
         self.factura_image = self.resize_image("assets/imgs/invoice.png", 256, 256)
         self.producto_image = self.resize_image("assets/imgs/product.png", 256, 256)
-        self.qr_image = self.resize_image("assets/imgs/qr.png", 256, 256)
         self.exit_image = self.resize_image("assets/imgs/exit.png", 256, 256)
-
-        # Title label
-        self.title_label = tk.Label(self.root, text="Factura Martin Medina", font=("Arial", 16), bg="lightgray")
-        self.title_label.pack(pady=20)
 
         # Frame to hold the buttons in a grid layout
         self.button_frame = tk.Frame(self.root, bg="lightgray")
@@ -87,13 +79,9 @@ class MainWindow:
                                          compound="top", command=lambda: open_producto_module(self.producto_service))
         self.producto_button.grid(row=1, column=0, padx=10, pady=10)
 
-        self.qr_button = tk.Button(self.button_frame, text="QR", image=self.qr_image, compound="top",
-                                   command=open_qr_module)
-        self.qr_button.grid(row=1, column=1, padx=10, pady=10)
-
         self.exit_button = tk.Button(self.button_frame, text="Salir", image=self.exit_image, compound="top",
                                      command=self.root.quit)
-        self.exit_button.grid(row=1, column=2, padx=10, pady=10)
+        self.exit_button.grid(row=1, column=1, padx=10, pady=10)
 
     def resize_image(self, image_path, width, height):
         """
@@ -106,3 +94,12 @@ class MainWindow:
         image = Image.open(image_path)
         image = image.resize((width, height), Image.LANCZOS)
         return ImageTk.PhotoImage(image)
+
+    def create_custom_title(self):
+        # Create a frame for the title
+        title_frame = tk.Frame(self.root, bg="lightgray")
+        title_frame.pack(fill="x", padx=10, pady=10)
+
+        # Create the label for 'Martin Medina' aligned to the right
+        right_title = tk.Label(title_frame, text="Martin Medina", font=("Arial", 20), bg="lightgray")
+        right_title.pack(side="right", anchor="e")  # Align to the right

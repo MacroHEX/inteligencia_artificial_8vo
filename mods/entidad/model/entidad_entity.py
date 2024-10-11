@@ -1,9 +1,9 @@
 class Entidad:
-    def __init__(self, nombre, tipo, ruc=None, direccion=None, telefono=None, email=None, cedula=None):
-        self.nombre = nombre
-        self.tipo = tipo
-        self.ruc = ruc
-        self.direccion = direccion
-        self.telefono = telefono
-        self.email = email
-        self.cedula = cedula
+    def __init__(self, nombre_med, tipo_med, ruc_med=None, direccion_med=None, telefono_med=None, enail_med=None, cedula_med=None):
+        self.nombre_med = nombre_med
+        self.tipo_med = tipo_med
+        self.ruc_med = ruc_med
+        self.direccion_med = direccion_med
+        self.telefono_med = telefono_med
+        self.enail_med = enail_med
+        self.cedula_med = cedula_med

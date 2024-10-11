@@ -23,12 +23,12 @@ class FacturaWindow:
         self.entidad_service = entidad_service
         self.timbrado_service = timbrado_service
         self.selected_productos = []  # Store selected products
-        self.total = 0
+        self.total_med = 0
         self.iva = 0
-        self.current_factura_id = None  # Store factura ID
+        self.current_factura_id_med = None  # Store factura ID
 
         # Retrieve the business RUC from entidad with ID 2
-        self.business_ruc = self.get_business_ruc()
+        self.business_ruc_med = self.get_business_ruc_med()
 
         # Create the main frame
         self.frame = tk.Frame(self.root, bg="lightgray")
@@ -67,13 +67,13 @@ class FacturaWindow:
         # Load all facturas into the treeview
         self.load_all_facturas()
 
-    def get_business_ruc(self):
-        """Get the RUC of the business using entidad ID 2."""
-        business_entidad = self.entidad_service.get_entidad_by_id(2)  # Assuming ID 2 is the business
+    def get_business_ruc_med(self):
+        """Get the RUC of the business using entidad ID 1."""
+        business_entidad = self.entidad_service.get_entidad_by_id(1)  # Where ID 1 is the business
         if business_entidad:
-            return business_entidad[2]  # 'ruc' is at index 2 in the tuple
+            return business_entidad[2]  # 'ruc_med' is at index 2 in the tuple
         else:
-            messagebox.showerror("Error", "No se pudo encontrar la entidad del negocio con ID 2.")
+            messagebox.showerror("Error", "No se pudo encontrar la entidad del negocio con ID 1.")
             return None
 
     def load_all_facturas(self):
@@ -164,9 +164,9 @@ class FacturaWindow:
         def select_entidad():
             selected_item = tree.selection()
             if selected_item:
-                entidad_id = tree.item(selected_item)["values"][1]
+                entidad_id_med = tree.item(selected_item)["values"][1]
                 self.factura_entries["entidad"].delete(0, tk.END)
-                self.factura_entries["entidad"].insert(0, entidad_id)
+                self.factura_entries["entidad"].insert(0, entidad_id_med)
                 entidad_window.destroy()
 
         select_button = tk.Button(entidad_window, text="Seleccionar", command=select_entidad)
@@ -189,23 +189,23 @@ class FacturaWindow:
 
         timbrados = self.timbrado_service.get_all_timbrados()
         for timbrado in timbrados:
-            # Notice we are using timbrado[0] for ID and timbrado[5] for numero_documento now
+            # Notice we are using timbrado[0] for ID and timbrado[5] for numero_documento_med now
             tree.insert("", "end", values=(
-                timbrado[0], timbrado[2], timbrado[3], timbrado[5]))  # Add numero_documento as timbrado[5]
+                timbrado[0], timbrado[2], timbrado[3], timbrado[5]))  # Add numero_documento_med as timbrado[5]
 
         def select_timbrado():
             selected_item = tree.selection()
             if selected_item:
-                timbrado_id = tree.item(selected_item)["values"][0]  # Fetch the correct ID (from index 0)
-                numero_timbrado = tree.item(selected_item)["values"][1]  # Fetch the numero_timbrado (from index 1)
-                numero_documento = tree.item(selected_item)["values"][3]  # Fetch the numero_documento (from index 3)
+                timbrado_id_med = tree.item(selected_item)["values"][0]  # Fetch the correct ID (from index 0)
+                numero_timbrado_med = tree.item(selected_item)["values"][1]  # Fetch the numero_timbrado_med (from index 1)
+                numero_documento_med = tree.item(selected_item)["values"][3]  # Fetch the numero_documento_med (from index 3)
 
                 self.factura_entries["timbrado"].delete(0, tk.END)
-                self.factura_entries["timbrado"].insert(0, numero_timbrado)  # Insert the numero_timbrado in the entry
+                self.factura_entries["timbrado"].insert(0, numero_timbrado_med)  # Insert the numero_timbrado_med in the entry
 
-                # Store the numero_documento if needed elsewhere in the code
+                # Store the numero_documento_med if needed elsewhere in the code
                 self.factura_entries[
-                    "numero_documento"] = numero_documento  # You can access this elsewhere in your logic
+                    "numero_documento_med"] = numero_documento_med  # You can access this elsewhere in your logic
 
                 timbrado_window.destroy()
 
@@ -233,49 +233,49 @@ class FacturaWindow:
 
         # Create a quantity input
         tk.Label(self.detalle_window, text="Cantidad:").pack(padx=10, pady=5)
-        self.cantidad_entry = tk.Entry(self.detalle_window)
-        self.cantidad_entry.pack(padx=10, pady=5)
+        self.cantidad_med_entry = tk.Entry(self.detalle_window)
+        self.cantidad_med_entry.pack(padx=10, pady=5)
 
         def select_producto():
             selected_item = tree.selection()
             if selected_item:
-                producto_id = tree.item(selected_item)["values"][0]  # ID is at index 0
-                nombre_producto = tree.item(selected_item)["values"][1]  # Nombre is at index 1
-                precio_unitario = float(tree.item(selected_item)["values"][2])  # Precio is at index 2
-                stock = int(tree.item(selected_item)["values"][3])  # Stock is at index 3
-                cantidad = int(self.cantidad_entry.get())
+                producto_id_med = tree.item(selected_item)["values"][0]  # ID is at index 0
+                nombre_producto_med = tree.item(selected_item)["values"][1]  # Nombre is at index 1
+                precio_unitario_med = float(tree.item(selected_item)["values"][2])  # Precio is at index 2
+                stock_med = int(tree.item(selected_item)["values"][3])  # Stock is at index 3
+                cantidad_med = int(self.cantidad_med_entry.get())
 
-                # Validate stock
-                if cantidad > stock:
-                    messagebox.showerror("Error", f"El stock disponible es insuficiente. Stock disponible: {stock}")
+                # Validate stock_med
+                if cantidad_med > stock_med:
+                    messagebox.showerror("Error", f"El stock_med disponible es insuficiente. Stock disponible: {stock_med}")
                     return
 
-                subtotal = cantidad * precio_unitario
-                self.total += subtotal
-                self.iva = self.total * 0.10
+                subtotal_med = cantidad_med * precio_unitario_med
+                self.total_med += subtotal_med
+                self.iva = self.total_med * 0.10
 
-                # Update total, IVA, and Subtotal fields dynamically
-                self.factura_entries["total"].config(state="normal")
+                # Update total_med, IVA, and Subtotal fields dynamically
+                self.factura_entries["total_med"].config(state="normal")
                 self.factura_entries["iva_10%"].config(state="normal")
-                self.factura_entries["subtotal"].config(state="normal")
+                self.factura_entries["subtotal_med"].config(state="normal")
 
-                self.factura_entries["total"].delete(0, tk.END)
-                self.factura_entries["total"].insert(0, str(self.total))
+                self.factura_entries["total_med"].delete(0, tk.END)
+                self.factura_entries["total_med"].insert(0, str(self.total_med))
 
                 self.factura_entries["iva_10%"].delete(0, tk.END)
                 self.factura_entries["iva_10%"].insert(0, str(self.iva))
 
-                self.factura_entries["subtotal"].delete(0, tk.END)
-                self.factura_entries["subtotal"].insert(0, str(subtotal))
+                self.factura_entries["subtotal_med"].delete(0, tk.END)
+                self.factura_entries["subtotal_med"].insert(0, str(subtotal_med))
 
-                self.factura_entries["total"].config(state="readonly")
+                self.factura_entries["total_med"].config(state="readonly")
                 self.factura_entries["iva_10%"].config(state="readonly")
-                self.factura_entries["subtotal"].config(state="readonly")
+                self.factura_entries["subtotal_med"].config(state="readonly")
 
                 # Store selected product details
-                self.selected_productos.append((producto_id, cantidad, precio_unitario, subtotal))
+                self.selected_productos.append((producto_id_med, cantidad_med, precio_unitario_med, subtotal_med))
 
-                messagebox.showinfo("Success", f"Producto {nombre_producto} agregado a la factura.")
+                messagebox.showinfo("Success", f"Producto {nombre_producto_med} agregado a la factura.")
                 self.detalle_window.destroy()
 
         # Add selection functionality for the product
@@ -283,76 +283,76 @@ class FacturaWindow:
         select_button.pack(pady=10)
 
     def finalizar_factura(self):
-        """Finalize the factura by saving it to the database and deducting stock."""
-        entidad_id = self.factura_entries["entidad"].get()
-        numero_timbrado = self.factura_entries["timbrado"].get()  # Fetch numero_timbrado
-        estado = self.factura_entries["estado"].get()
+        """Finalize the factura by saving it to the database and deducting stock_med."""
+        entidad_id_med = self.factura_entries["entidad"].get()
+        numero_timbrado_med = self.factura_entries["timbrado"].get()  # Fetch numero_timbrado_med
+        estado_med = self.factura_entries["estado_med"].get()
 
-        # Lookup timbrado by numero_timbrado to get the ID
-        timbrado = self.timbrado_service.get_timbrado_by_numero(numero_timbrado)
+        # Lookup timbrado by numero_timbrado_med to get the ID
+        timbrado = self.timbrado_service.get_timbrado_by_numero(numero_timbrado_med)
         if not timbrado:
             messagebox.showerror("Error", "Timbrado no encontrado.")
             return
 
-        timbrado_id = timbrado[0]  # ID is at index 0
+        timbrado_id_med = timbrado[0]  # ID is at index 0
 
-        # Ensure numero_documento is fetched correctly (index 5)
+        # Ensure numero_documento_med is fetched correctly (index 5)
         try:
-            nro_documento_actual = int(timbrado[5])  # Correct index for 'numero_documento' is 5
+            nro_documento_actual = int(timbrado[5])  # Correct index for 'numero_documento_med' is 5
             print(f"Numero Documento fetched: {nro_documento_actual}")  # Debug print
             nuevo_numero_documento = nro_documento_actual + 1
         except ValueError:
             # Handle cases where the value is not an integer
-            print(f"Invalid conversion attempt for numero_documento: {timbrado[5]}")  # Print what's causing the error
+            print(f"Invalid conversion attempt for numero_documento_med: {timbrado[5]}")  # Print what's causing the error
             messagebox.showerror("Error", f"El número de documento '{timbrado[5]}' no es válido.")  # Corrected index
             return
 
         # Additional debug to ensure correct field update
-        print(f"Updating timbrado with new numero_documento: {nuevo_numero_documento}")
+        print(f"Updating timbrado with new numero_documento_med: {nuevo_numero_documento}")
 
         # Validate required fields
-        if not entidad_id or not timbrado_id or not self.selected_productos:
+        if not entidad_id_med or not timbrado_id_med or not self.selected_productos:
             messagebox.showerror("Error", "Complete todos los campos y agregue productos.")
             return
 
         # Create the factura object
-        factura = Factura(datetime.now().strftime("%Y-%m-%d"), entidad_id, timbrado_id, self.total, estado)
+        factura = Factura(datetime.now().strftime("%Y-%m-%d"), entidad_id_med, timbrado_id_med, self.total_med, estado_med)
 
         # Prepare the list of DetalleFactura objects
         detalles = []
-        for producto_id, cantidad, precio_unitario, subtotal in self.selected_productos:
-            detalle_factura = DetalleFactura(None, producto_id, cantidad, precio_unitario, subtotal)
+        for producto_id_med, cantidad_med, precio_unitario_med, subtotal_med in self.selected_productos:
+            detalle_factura = DetalleFactura(None, producto_id_med, cantidad_med, precio_unitario_med, subtotal_med)
             detalles.append(detalle_factura)
 
         try:
             # Save factura and its details using a transaction
-            self.current_factura_id = self.factura_service.create_factura_with_detalles(factura, detalles)
+            self.current_factura_id_med = self.factura_service.create_factura_with_detalles(factura, detalles)
 
-            # Update timbrado with incremented numero_documento
-            # Remove str() to keep numero_documento as an integer
+            # Update timbrado with incremented numero_documento_med
+            # Remove str() to keep numero_documento_med as an integer
             self.timbrado_service.update_timbrado(
-                timbrado_id,
-                timbrado[1],  # tipo_de_documento (Factura)
-                timbrado[2],  # numero_timbrado (001-001)
-                timbrado[3],  # establecimiento (M)
-                timbrado[4],  # punto_expedicion (A)
-                nuevo_numero_documento,  # Keep numero_documento as an integer
-                timbrado[6]  # fecha_inicio
+                timbrado_id_med,
+                timbrado[1],  # tipo_de_documento_med (Factura)
+                timbrado[2],  # numero_timbrado_med (001-001)
+                timbrado[3],  # establecimiento_med (M)
+                timbrado[4],  # punto_expedicion_med (A)
+                nuevo_numero_documento,  # Keep numero_documento_med as an integer
+                timbrado[6]  # fecha_inicio_med
             )
 
-            # Deduct stock for each product
-            for producto_id, cantidad, precio_unitario, subtotal in self.selected_productos:
-                producto = self.producto_service.get_producto_by_id(producto_id)
-                new_stock = producto[5] - cantidad  # Assuming stock is at index 5
+            # Deduct stock_med for each product
+            for producto_id_med, cantidad_med, precio_unitario_med, subtotal_med in self.selected_productos:
+                producto = self.producto_service.get_producto_by_id(producto_id_med)
+                new_stock = producto[5] - cantidad_med  # Assuming stock_med is at index 5
 
-                # Update product stock
+                # Update product stock_med
                 self.producto_service.update_producto(
-                    producto_id,
-                    producto[1],  # codigo_interno
-                    producto[2],  # nombre
-                    producto[3],  # descripcion
-                    producto[4],  # precio
-                    new_stock  # updated stock
+                    producto_id_med,
+                    producto[1],  # codigo_interno_med
+                    producto[2],  # nombre_med
+                    producto[3],  # descripcion_med
+                    producto[4],  # precio_med
+                    new_stock  # updated stock_med
                 )
 
             messagebox.showinfo("Success", "Factura finalizada y guardada exitosamente.")
@@ -370,7 +370,7 @@ class FacturaWindow:
             messagebox.showerror("Error", "Seleccione una factura para eliminar.")
             return
 
-        factura_id = self.tree.item(selected_entity)["values"][0]
-        self.factura_service.delete_factura(factura_id)
+        factura_id_med = self.tree.item(selected_entity)["values"][0]
+        self.factura_service.delete_factura(factura_id_med)
         messagebox.showinfo("Success", "Factura eliminada exitosamente.")
         self.load_all_facturas()

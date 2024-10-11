@@ -9,19 +9,19 @@ class ProductoService:
     def create_table(self):
         self.repository.create_table()
 
-    def create_producto(self, codigo_interno, nombre, descripcion, precio, stock):
-        producto = Producto(codigo_interno, nombre, descripcion, precio, stock)
+    def create_producto(self, codigo_interno_med, nombre_med, descripcion_med, precio_med, stock_med):
+        producto = Producto(codigo_interno_med, nombre_med, descripcion_med, precio_med, stock_med)
         self.repository.insert(producto)
 
     def get_all_productos(self):
         return self.repository.get_all()
 
-    def get_producto_by_id(self, producto_id):
-        return self.repository.get_by_id(producto_id)
+    def get_producto_by_id(self, producto_id_med):
+        return self.repository.get_by_id(producto_id_med)
 
-    def update_producto(self, producto_id, codigo_interno, nombre, descripcion, precio, stock):
-        producto = Producto(codigo_interno, nombre, descripcion, precio, stock)
-        self.repository.update(producto_id, producto)
+    def update_producto(self, producto_id_med, codigo_interno_med, nombre_med, descripcion_med, precio_med, stock_med):
+        producto = Producto(codigo_interno_med, nombre_med, descripcion_med, precio_med, stock_med)
+        self.repository.update(producto_id_med, producto)
 
-    def delete_producto(self, producto_id):
-        self.repository.delete(producto_id)
+    def delete_producto(self, producto_id_med):
+        self.repository.delete(producto_id_med)

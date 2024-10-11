@@ -64,12 +64,12 @@ class EntidadWindow:
 
     def search_entidad(self):
         """Search for an entity by ID and display its details."""
-        entidad_id = self.search_entry.get()
-        if not entidad_id.isdigit():
+        entidad_id_med = self.search_entry.get()
+        if not entidad_id_med.isdigit():
             messagebox.showerror("Invalid Input", "Please enter a valid ID.")
             return
 
-        entidad = self.service.get_entidad_by_id(int(entidad_id))
+        entidad = self.service.get_entidad_by_id(int(entidad_id_med))
         if entidad:
             self.tree.delete(*self.tree.get_children())  # Clear the table
             self.tree.insert('', 'end', values=entidad)  # Insert the search result
@@ -111,21 +111,21 @@ class EntidadWindow:
     def add_entidad(self):
         """Add a new entity to the database."""
         # Get values from input fields
-        nombre = self.entries["nombre"].get()
-        tipo = self.entries["tipo"].get()
-        ruc = self.entries["ruc"].get()
-        direccion = self.entries["dirección"].get()
-        telefono = self.entries["teléfono"].get()
-        email = self.entries["email"].get()
-        cedula = self.entries["cédula"].get()
+        nombre_med = self.entries["nombre_med"].get()
+        tipo_med = self.entries["tipo_med"].get()
+        ruc_med = self.entries["ruc_med"].get()
+        direccion_med = self.entries["dirección"].get()
+        telefono_med = self.entries["teléfono"].get()
+        enail_med = self.entries["enail_med"].get()
+        cedula_med = self.entries["cédula"].get()
 
         # Validate required fields
-        if not nombre or not tipo:
+        if not nombre_med or not tipo_med:
             messagebox.showerror("Error", "Nombre and Tipo are required.")
             return
 
         # Create the entity
-        self.service.create_entidad(nombre, tipo, ruc, direccion, telefono, email, cedula)
+        self.service.create_entidad(nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, enail_med, cedula_med)
         messagebox.showinfo("Success", "Entidad added successfully.")
         self.load_all_entidades()
         self.new_window.destroy()
@@ -137,11 +137,11 @@ class EntidadWindow:
             messagebox.showerror("Error", "Please select an entity to update.")
             return
 
-        entidad_id = self.tree.item(selected_entity)["values"][0]  # Get the ID from the selected row
+        entidad_id_med = self.tree.item(selected_entity)["values"][0]  # Get the ID from the selected row
         self.update_window = tk.Toplevel(self.root)
         self.update_window.title("Actualizar Entidad")
 
-        entidad = self.service.get_entidad_by_id(entidad_id)
+        entidad = self.service.get_entidad_by_id(entidad_id_med)
 
         labels = ["Nombre", "Tipo", "RUC", "Dirección", "Teléfono", "Email", "Cédula"]
         self.update_entries = {}
@@ -159,36 +159,36 @@ class EntidadWindow:
                 self.update_entries[label_text.lower()] = entry
 
         # Pre-fill the fields with existing entity data
-        self.update_entries["nombre"].insert(0, entidad[1])
-        self.update_entries["tipo"].set(entidad[2])  # Combobox uses set() to pre-fill
-        self.update_entries["ruc"].insert(0, entidad[3])
+        self.update_entries["nombre_med"].insert(0, entidad[1])
+        self.update_entries["tipo_med"].set(entidad[2])  # Combobox uses set() to pre-fill
+        self.update_entries["ruc_med"].insert(0, entidad[3])
         self.update_entries["dirección"].insert(0, entidad[4])
         self.update_entries["teléfono"].insert(0, entidad[5])
-        self.update_entries["email"].insert(0, entidad[6])
+        self.update_entries["enail_med"].insert(0, entidad[6])
         self.update_entries["cédula"].insert(0, entidad[7])
 
         # Update button
         self.update_button = tk.Button(self.update_window, text="Actualizar",
-                                       command=lambda: self.update_entidad(entidad_id), font=("Arial", 12), bg="#f0ad4e", fg="white")
+                                       command=lambda: self.update_entidad(entidad_id_med), font=("Arial", 12), bg="#f0ad4e", fg="white")
         self.update_button.grid(row=len(labels), column=1, padx=10, pady=10)
 
-    def update_entidad(self, entidad_id):
+    def update_entidad(self, entidad_id_med):
         """Update the selected entity."""
-        nombre = self.update_entries["nombre"].get()
-        tipo = self.update_entries["tipo"].get()
-        ruc = self.update_entries["ruc"].get()
-        direccion = self.update_entries["dirección"].get()
-        telefono = self.update_entries["teléfono"].get()
-        email = self.update_entries["email"].get()
-        cedula = self.update_entries["cédula"].get()
+        nombre_med = self.update_entries["nombre_med"].get()
+        tipo_med = self.update_entries["tipo_med"].get()
+        ruc_med = self.update_entries["ruc_med"].get()
+        direccion_med = self.update_entries["dirección"].get()
+        telefono_med = self.update_entries["teléfono"].get()
+        enail_med = self.update_entries["enail_med"].get()
+        cedula_med = self.update_entries["cédula"].get()
 
         # Validate required fields
-        if not nombre or not tipo:
+        if not nombre_med or not tipo_med:
             messagebox.showerror("Error", "Nombre and Tipo are required.")
             return
 
         # Update the entity
-        self.service.update_entidad(entidad_id, nombre, tipo, ruc, direccion, telefono, email, cedula)
+        self.service.update_entidad(entidad_id_med, nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, enail_med, cedula_med)
         messagebox.showinfo("Success", "Entidad updated successfully.")
         self.load_all_entidades()
         self.update_window.destroy()
@@ -200,7 +200,7 @@ class EntidadWindow:
             messagebox.showerror("Error", "Please select an entity to delete.")
             return
 
-        entidad_id = self.tree.item(selected_entity)["values"][0]
-        self.service.delete_entidad(entidad_id)
+        entidad_id_med = self.tree.item(selected_entity)["values"][0]
+        self.service.delete_entidad(entidad_id_med)
         messagebox.showinfo("Success", "Entidad deleted successfully.")
         self.load_all_entidades()

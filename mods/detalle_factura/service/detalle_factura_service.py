@@ -6,22 +6,25 @@ class DetalleFacturaService:
     def __init__(self, connection):
         self.repository = DetalleFacturaRepository(connection)
 
-    def create_table(self):
-        self.repository.create_table()
+    def crear_tabla(self):
+        self.repository.crear_tabla()
 
-    def create_detalle_factura(self, factura_id, producto_id, cantidad, precio_unitario, subtotal):
-        detalle_factura = DetalleFactura(factura_id, producto_id, cantidad, precio_unitario, subtotal)
-        self.repository.insert(detalle_factura)
+    def crear_detalle_factura(self, factura_id_med, producto_id_med, cantidad_med, precio_unitario_med, subtotal_med):
+        detalle_factura = DetalleFactura(factura_id_med, producto_id_med, cantidad_med, precio_unitario_med,
+                                         subtotal_med)
+        self.repository.insertar(detalle_factura)
 
-    def get_all_detalles(self):
-        return self.repository.get_all()
+    def listar_detalles(self):
+        return self.repository.listar_detalles()
 
-    def get_detalle_by_id(self, detalle_id):
-        return self.repository.get_by_id(detalle_id)
+    def listar_detalle_por_id(self, detalle_id):
+        return self.repository.listar_detalle_por_id(detalle_id)
 
-    def update_detalle_factura(self, detalle_id, factura_id, producto_id, cantidad, precio_unitario, subtotal):
-        detalle_factura = DetalleFactura(factura_id, producto_id, cantidad, precio_unitario, subtotal)
-        self.repository.update(detalle_id, detalle_factura)
+    def actualizar_detalle_factura(self, detalle_id, factura_id_med, producto_id_med, cantidad_med, precio_unitario_med,
+                                   subtotal_med):
+        detalle_factura = DetalleFactura(factura_id_med, producto_id_med, cantidad_med, precio_unitario_med,
+                                         subtotal_med)
+        self.repository.actualizar_detalle_factura(detalle_id, detalle_factura)
 
-    def delete_detalle_factura(self, detalle_id):
-        self.repository.delete(detalle_id)
+    def eliminar_detalle_factura(self, detalle_id):
+        self.repository.eliminar_detalle_factura(detalle_id)

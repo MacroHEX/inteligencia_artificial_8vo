@@ -9,20 +9,20 @@ class EntidadService:
     def create_table(self):
         self.repository.create_table()
 
-    def create_entidad(self, nombre, tipo, ruc=None, direccion=None, telefono=None, email=None, cedula=None):
-        entidad = Entidad(nombre, tipo, ruc, direccion, telefono, email, cedula)
+    def create_entidad(self, nombre_med, tipo_med, ruc_med=None, direccion_med=None, telefono_med=None, enail_med=None, cedula_med=None):
+        entidad = Entidad(nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, enail_med, cedula_med)
         self.repository.insert(entidad)
 
     def get_all_entidades(self):
         return self.repository.get_all()
 
-    def get_entidad_by_id(self, entidad_id):
-        return self.repository.get_by_id(entidad_id)
+    def get_entidad_by_id(self, entidad_id_med):
+        return self.repository.get_by_id(entidad_id_med)
 
-    def update_entidad(self, entidad_id, nombre, tipo, ruc=None, direccion=None, telefono=None, email=None,
-                       cedula=None):
-        entidad = Entidad(nombre, tipo, ruc, direccion, telefono, email, cedula)
-        self.repository.update(entidad_id, entidad)
+    def update_entidad(self, entidad_id_med, nombre_med, tipo_med, ruc_med=None, direccion_med=None, telefono_med=None, enail_med=None,
+                       cedula_med=None):
+        entidad = Entidad(nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, enail_med, cedula_med)
+        self.repository.update(entidad_id_med, entidad)
 
-    def delete_entidad(self, entidad_id):
-        self.repository.delete(entidad_id)
+    def delete_entidad(self, entidad_id_med):
+        self.repository.delete(entidad_id_med)

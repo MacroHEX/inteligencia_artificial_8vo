@@ -7,41 +7,41 @@ class EntidadRepository:
             self.connection.execute('''
                 CREATE TABLE IF NOT EXISTS entidades (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nombre TEXT NOT NULL,
-                    tipo TEXT NOT NULL,
-                    ruc TEXT UNIQUE,
-                    direccion TEXT,
-                    telefono TEXT,
-                    email TEXT,
-                    cedula TEXT UNIQUE
+                    nombre_med TEXT NOT NULL,
+                    tipo_med TEXT NOT NULL,
+                    ruc_med TEXT UNIQUE,
+                    direccion_med TEXT,
+                    telefono_med TEXT,
+                    enail_med TEXT,
+                    cedula_med TEXT UNIQUE
                 );
             ''')
 
     def insert(self, entidad):
         with self.connection:
             self.connection.execute('''
-                INSERT INTO entidades (nombre, tipo, ruc, direccion, telefono, email, cedula)
+                INSERT INTO entidades (nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, enail_med, cedula_med)
                 VALUES (?, ?, ?, ?, ?, ?, ?);
-            ''', (entidad.nombre, entidad.tipo, entidad.ruc, entidad.direccion, entidad.telefono, entidad.email,
-                  entidad.cedula))
+            ''', (entidad.nombre_med, entidad.tipo_med, entidad.ruc_med, entidad.direccion_med, entidad.telefono_med, entidad.enail_med,
+                  entidad.cedula_med))
 
     def get_all(self):
         cursor = self.connection.execute('SELECT * FROM entidades')
         return cursor.fetchall()
 
-    def get_by_id(self, entidad_id):
-        cursor = self.connection.execute('SELECT * FROM entidades WHERE id = ?', (entidad_id,))
+    def get_by_id(self, entidad_id_med):
+        cursor = self.connection.execute('SELECT * FROM entidades WHERE id = ?', (entidad_id_med,))
         return cursor.fetchone()
 
-    def update(self, entidad_id, entidad):
+    def update(self, entidad_id_med, entidad):
         with self.connection:
             self.connection.execute('''
                 UPDATE entidades
-                SET nombre = ?, tipo = ?, ruc = ?, direccion = ?, telefono = ?, email = ?, cedula = ?
+                SET nombre_med = ?, tipo_med = ?, ruc_med = ?, direccion_med = ?, telefono_med = ?, enail_med = ?, cedula_med = ?
                 WHERE id = ?;
-            ''', (entidad.nombre, entidad.tipo, entidad.ruc, entidad.direccion, entidad.telefono, entidad.email,
-                  entidad.cedula, entidad_id))
+            ''', (entidad.nombre_med, entidad.tipo_med, entidad.ruc_med, entidad.direccion_med, entidad.telefono_med, entidad.enail_med,
+                  entidad.cedula_med, entidad_id_med))
 
-    def delete(self, entidad_id):
+    def delete(self, entidad_id_med):
         with self.connection:
-            self.connection.execute('DELETE FROM entidades WHERE id = ?', (entidad_id,))
+            self.connection.execute('DELETE FROM entidades WHERE id = ?', (entidad_id_med,))

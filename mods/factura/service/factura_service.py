@@ -20,18 +20,18 @@ class FacturaService:
             # Start a transaction
             with self.connection:
                 # Increment nro_documento for timbrado
-                nro_documento = self.timbrado_service.increment_nro_documento(factura.timbrado_id)
+                nro_documento = self.timbrado_service.increment_nro_documento(factura.timbrado_id_med)
 
-                # Create the factura and get the factura_id
-                factura_id = self.repository.insert(factura)
+                # Create the factura and get the factura_id_med
+                factura_id_med = self.repository.insert(factura)
 
-                # Now create each detalle_factura using the generated factura_id
+                # Now create each detalle_factura using the generated factura_id_med
                 for detalle in detalles:
-                    detalle.factura_id = factura_id  # Ensure that factura_id is assigned
-                    self.detalle_factura_service.create_detalle_factura(
-                        factura_id, detalle.producto_id, detalle.cantidad, detalle.precio_unitario, detalle.subtotal
+                    detalle.factura_id_med = factura_id_med  # Ensure that factura_id_med is assigned
+                    self.detalle_factura_service.crear_detalle_factura(
+                        factura_id_med, detalle.producto_id_med, detalle.cantidad_med, detalle.precio_unitario_med, detalle.subtotal_med
                     )
-            return factura_id
+            return factura_id_med
         except Exception as e:
             print(f"Error during transaction: {e}")
             raise
@@ -39,12 +39,12 @@ class FacturaService:
     def get_all_facturas(self):
         return self.repository.get_all()
 
-    def get_factura_by_id(self, factura_id):
-        return self.repository.get_by_id(factura_id)
+    def get_factura_by_id(self, factura_id_med):
+        return self.repository.get_by_id(factura_id_med)
 
-    def update_factura(self, factura_id, fecha_emision, entidad_id, timbrado_id, total, estado):
-        factura = Factura(fecha_emision, entidad_id, timbrado_id, total, estado)
-        self.repository.update(factura_id, factura)
+    def update_factura(self, factura_id_med, fecha_emision_med, entidad_id_med, timbrado_id_med, total_med, estado_med):
+        factura = Factura(fecha_emision_med, entidad_id_med, timbrado_id_med, total_med, estado_med)
+        self.repository.update(factura_id_med, factura)
 
-    def delete_factura(self, factura_id):
-        self.repository.delete(factura_id)
+    def delete_factura(self, factura_id_med):
+        self.repository.delete(factura_id_med)
