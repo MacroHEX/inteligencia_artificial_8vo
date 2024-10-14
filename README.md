@@ -38,7 +38,7 @@ La base de datos está compuesta por las siguientes entidades:
     - **ruc_med:** RUC de la entidad (opcional).
     - **direccion_med:** Dirección de la entidad (opcional).
     - **telefono_med:** Número de teléfono de la entidad (opcional).
-    - **enail_med:** Correo electrónico de la entidad (opcional).
+    - **email_med:** Correo electrónico de la entidad (opcional).
     - **cedula_med:** Cédula de la persona (opcional).
 
 2. **Factura:** Almacena las facturas emitidas.

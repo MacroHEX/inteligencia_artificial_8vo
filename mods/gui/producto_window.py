@@ -111,10 +111,10 @@ class ProductoWindow:
         """Add a new producto to the database."""
         # Get values from input fields
         codigo_interno_med = self.entries["código_interno"].get()
-        nombre_med = self.entries["nombre_med"].get()
+        nombre_med = self.entries["nombre"].get()
         descripcion_med = self.entries["descripción"].get()
-        precio_med = self.entries["precio_med"].get()
-        stock_med = self.entries["stock_med"].get()
+        precio_med = self.entries["precio"].get()
+        stock_med = self.entries["stock"].get()
 
         # Validate required fields
         if not codigo_interno_med or not nombre_med or not precio_med or not stock_med:
@@ -165,10 +165,10 @@ class ProductoWindow:
     def update_producto(self, producto_id_med):
         """Update the selected producto."""
         codigo_interno_med = self.update_entries["código_interno"].get()
-        nombre_med = self.update_entries["nombre_med"].get()
+        nombre_med = self.update_entries["nombre"].get()
         descripcion_med = self.update_entries["descripción"].get()
-        precio_med = self.update_entries["precio_med"].get()
-        stock_med = self.update_entries["stock_med"].get()
+        precio_med = self.update_entries["precio"].get()
+        stock_med = self.update_entries["stock"].get()
 
         # Validate required fields
         if not codigo_interno_med or not nombre_med or not precio_med or not stock_med:

@@ -23,11 +23,14 @@ class EntidadWindow:
         self.search_label.pack(side="left", padx=(0, 10), pady=5)
         self.search_entry = tk.Entry(search_frame, font=("Arial", 12))
         self.search_entry.pack(side="left", padx=(0, 10), pady=5)
-        self.search_button = tk.Button(search_frame, text="Buscar", command=self.search_entidad, font=("Arial", 12), bg="#5cb85c", fg="white")
+        self.search_button = tk.Button(search_frame, text="Buscar", command=self.search_entidad, font=("Arial", 12),
+                                       bg="#5cb85c", fg="white")
         self.search_button.pack(side="left", pady=5)
 
         # Treeview for displaying entidades as a table
-        self.tree = ttk.Treeview(self.frame, columns=("ID", "Nombre", "Tipo", "RUC", "Dirección", "Teléfono", "Email", "Cédula"), show='headings')
+        self.tree = ttk.Treeview(self.frame,
+                                 columns=("ID", "Nombre", "Tipo", "RUC", "Dirección", "Teléfono", "Email", "Cédula"),
+                                 show='headings')
         self.tree.heading("ID", text="ID")
         self.tree.heading("Nombre", text="Nombre")
         self.tree.heading("Tipo", text="Tipo")
@@ -48,15 +51,18 @@ class EntidadWindow:
         button_frame.grid(row=2, column=0, columnspan=3, pady=10)
 
         # Add Button
-        self.add_button = tk.Button(button_frame, text="Agregar Entidad", command=self.open_add_window, font=("Arial", 12), bg="#0275d8", fg="white")
+        self.add_button = tk.Button(button_frame, text="Agregar Entidad", command=self.open_add_window,
+                                    font=("Arial", 12), bg="#0275d8", fg="white")
         self.add_button.pack(side="left", padx=10)
 
         # Update Button
-        self.update_button = tk.Button(button_frame, text="Actualizar Seleccionado", command=self.open_update_window, font=("Arial", 12), bg="#f0ad4e", fg="white")
+        self.update_button = tk.Button(button_frame, text="Actualizar Seleccionado", command=self.open_update_window,
+                                       font=("Arial", 12), bg="#f0ad4e", fg="white")
         self.update_button.pack(side="left", padx=10)
 
         # Delete Button
-        self.delete_button = tk.Button(button_frame, text="Borrar Seleccionado", command=self.delete_selected_entidad, font=("Arial", 12), bg="#d9534f", fg="white")
+        self.delete_button = tk.Button(button_frame, text="Borrar Seleccionado", command=self.delete_selected_entidad,
+                                       font=("Arial", 12), bg="#d9534f", fg="white")
         self.delete_button.pack(side="left", padx=10)
 
         # Load all entidades into the treeview
@@ -105,18 +111,19 @@ class EntidadWindow:
                 self.entries[label_text.lower()] = entry
 
         # Add Button
-        self.add_button = tk.Button(self.new_window, text="Agregar", command=self.add_entidad, font=("Arial", 12), bg="#5cb85c", fg="white")
+        self.add_button = tk.Button(self.new_window, text="Agregar", command=self.add_entidad, font=("Arial", 12),
+                                    bg="#5cb85c", fg="white")
         self.add_button.grid(row=len(labels), column=1, padx=10, pady=10)
 
     def add_entidad(self):
         """Add a new entity to the database."""
         # Get values from input fields
-        nombre_med = self.entries["nombre_med"].get()
-        tipo_med = self.entries["tipo_med"].get()
-        ruc_med = self.entries["ruc_med"].get()
+        nombre_med = self.entries["nombre"].get()
+        tipo_med = self.entries["tipo"].get()
+        ruc_med = self.entries["ruc"].get()
         direccion_med = self.entries["dirección"].get()
         telefono_med = self.entries["teléfono"].get()
-        enail_med = self.entries["enail_med"].get()
+        email_med = self.entries["email"].get()
         cedula_med = self.entries["cédula"].get()
 
         # Validate required fields
@@ -125,7 +132,7 @@ class EntidadWindow:
             return
 
         # Create the entity
-        self.service.create_entidad(nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, enail_med, cedula_med)
+        self.service.create_entidad(nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, email_med, cedula_med)
         messagebox.showinfo("Success", "Entidad added successfully.")
         self.load_all_entidades()
         self.new_window.destroy()
@@ -159,27 +166,28 @@ class EntidadWindow:
                 self.update_entries[label_text.lower()] = entry
 
         # Pre-fill the fields with existing entity data
-        self.update_entries["nombre_med"].insert(0, entidad[1])
-        self.update_entries["tipo_med"].set(entidad[2])  # Combobox uses set() to pre-fill
-        self.update_entries["ruc_med"].insert(0, entidad[3])
+        self.update_entries["nombre"].insert(0, entidad[1])
+        self.update_entries["tipo"].set(entidad[2])  # Combobox uses set() to pre-fill
+        self.update_entries["ruc"].insert(0, entidad[3])
         self.update_entries["dirección"].insert(0, entidad[4])
         self.update_entries["teléfono"].insert(0, entidad[5])
-        self.update_entries["enail_med"].insert(0, entidad[6])
+        self.update_entries["email"].insert(0, entidad[6])
         self.update_entries["cédula"].insert(0, entidad[7])
 
         # Update button
         self.update_button = tk.Button(self.update_window, text="Actualizar",
-                                       command=lambda: self.update_entidad(entidad_id_med), font=("Arial", 12), bg="#f0ad4e", fg="white")
+                                       command=lambda: self.update_entidad(entidad_id_med), font=("Arial", 12),
+                                       bg="#f0ad4e", fg="white")
         self.update_button.grid(row=len(labels), column=1, padx=10, pady=10)
 
     def update_entidad(self, entidad_id_med):
         """Update the selected entity."""
-        nombre_med = self.update_entries["nombre_med"].get()
-        tipo_med = self.update_entries["tipo_med"].get()
-        ruc_med = self.update_entries["ruc_med"].get()
+        nombre_med = self.update_entries["nombre"].get()
+        tipo_med = self.update_entries["tipo"].get()
+        ruc_med = self.update_entries["ruc"].get()
         direccion_med = self.update_entries["dirección"].get()
         telefono_med = self.update_entries["teléfono"].get()
-        enail_med = self.update_entries["enail_med"].get()
+        email_med = self.update_entries["email"].get()
         cedula_med = self.update_entries["cédula"].get()
 
         # Validate required fields
@@ -188,7 +196,8 @@ class EntidadWindow:
             return
 
         # Update the entity
-        self.service.update_entidad(entidad_id_med, nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, enail_med, cedula_med)
+        self.service.update_entidad(entidad_id_med, nombre_med, tipo_med, ruc_med, direccion_med, telefono_med,
+                                    email_med, cedula_med)
         messagebox.showinfo("Success", "Entidad updated successfully.")
         self.load_all_entidades()
         self.update_window.destroy()

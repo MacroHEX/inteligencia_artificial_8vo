@@ -12,7 +12,7 @@ class EntidadRepository:
                     ruc_med TEXT UNIQUE,
                     direccion_med TEXT,
                     telefono_med TEXT,
-                    enail_med TEXT,
+                    email_med TEXT,
                     cedula_med TEXT UNIQUE
                 );
             ''')
@@ -20,9 +20,9 @@ class EntidadRepository:
     def insert(self, entidad):
         with self.connection:
             self.connection.execute('''
-                INSERT INTO entidades (nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, enail_med, cedula_med)
+                INSERT INTO entidades (nombre_med, tipo_med, ruc_med, direccion_med, telefono_med, email_med, cedula_med)
                 VALUES (?, ?, ?, ?, ?, ?, ?);
-            ''', (entidad.nombre_med, entidad.tipo_med, entidad.ruc_med, entidad.direccion_med, entidad.telefono_med, entidad.enail_med,
+            ''', (entidad.nombre_med, entidad.tipo_med, entidad.ruc_med, entidad.direccion_med, entidad.telefono_med, entidad.email_med,
                   entidad.cedula_med))
 
     def get_all(self):
@@ -37,9 +37,9 @@ class EntidadRepository:
         with self.connection:
             self.connection.execute('''
                 UPDATE entidades
-                SET nombre_med = ?, tipo_med = ?, ruc_med = ?, direccion_med = ?, telefono_med = ?, enail_med = ?, cedula_med = ?
+                SET nombre_med = ?, tipo_med = ?, ruc_med = ?, direccion_med = ?, telefono_med = ?, email_med = ?, cedula_med = ?
                 WHERE id = ?;
-            ''', (entidad.nombre_med, entidad.tipo_med, entidad.ruc_med, entidad.direccion_med, entidad.telefono_med, entidad.enail_med,
+            ''', (entidad.nombre_med, entidad.tipo_med, entidad.ruc_med, entidad.direccion_med, entidad.telefono_med, entidad.email_med,
                   entidad.cedula_med, entidad_id_med))
 
     def delete(self, entidad_id_med):

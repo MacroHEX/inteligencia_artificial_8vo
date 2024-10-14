@@ -255,22 +255,22 @@ class FacturaWindow:
                 self.iva = self.total_med * 0.10
 
                 # Update total_med, IVA, and Subtotal fields dynamically
-                self.factura_entries["total_med"].config(state="normal")
+                self.factura_entries["total"].config(state="normal")
                 self.factura_entries["iva_10%"].config(state="normal")
-                self.factura_entries["subtotal_med"].config(state="normal")
+                self.factura_entries["subtotal"].config(state="normal")
 
-                self.factura_entries["total_med"].delete(0, tk.END)
-                self.factura_entries["total_med"].insert(0, str(self.total_med))
+                self.factura_entries["total"].delete(0, tk.END)
+                self.factura_entries["total"].insert(0, str(self.total_med))
 
                 self.factura_entries["iva_10%"].delete(0, tk.END)
                 self.factura_entries["iva_10%"].insert(0, str(self.iva))
 
-                self.factura_entries["subtotal_med"].delete(0, tk.END)
-                self.factura_entries["subtotal_med"].insert(0, str(subtotal_med))
+                self.factura_entries["subtotal"].delete(0, tk.END)
+                self.factura_entries["subtotal"].insert(0, str(subtotal_med))
 
-                self.factura_entries["total_med"].config(state="readonly")
+                self.factura_entries["total"].config(state="readonly")
                 self.factura_entries["iva_10%"].config(state="readonly")
-                self.factura_entries["subtotal_med"].config(state="readonly")
+                self.factura_entries["subtotal"].config(state="readonly")
 
                 # Store selected product details
                 self.selected_productos.append((producto_id_med, cantidad_med, precio_unitario_med, subtotal_med))
@@ -286,7 +286,7 @@ class FacturaWindow:
         """Finalize the factura by saving it to the database and deducting stock_med."""
         entidad_id_med = self.factura_entries["entidad"].get()
         numero_timbrado_med = self.factura_entries["timbrado"].get()  # Fetch numero_timbrado_med
-        estado_med = self.factura_entries["estado_med"].get()
+        estado_med = self.factura_entries["estado"].get()
 
         # Lookup timbrado by numero_timbrado_med to get the ID
         timbrado = self.timbrado_service.get_timbrado_by_numero(numero_timbrado_med)

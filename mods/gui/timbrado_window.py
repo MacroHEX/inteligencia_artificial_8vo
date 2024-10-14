@@ -129,12 +129,12 @@ class TimbradoWindow:
     def add_timbrado(self):
         """Add a new timbrado to the database."""
         # Get values from input fields
-        tipo_de_documento_med = self.entries["tipo_de_documento_med"].get()
+        tipo_de_documento_med = self.entries["tipo_de_documento"].get()
         numero_timbrado_med = self.entries["número_timbrado"].get()
-        establecimiento_med = self.entries["establecimiento_med"].get()
+        establecimiento_med = self.entries["establecimiento"].get()
         punto_expedicion_med = self.entries["punto_expedición"].get()
         numero_documento_med = self.entries["número_documento"].get()
-        fecha_inicio_med = self.entries["fecha_inicio_med"].get()
+        fecha_inicio_med = self.entries["fecha_inicio"].get()
 
         # Validate required fields
         if not tipo_de_documento_med or not numero_timbrado_med:
@@ -196,12 +196,12 @@ class TimbradoWindow:
 
     def update_timbrado(self, timbrado_id_med):
         """Update the selected timbrado."""
-        tipo_de_documento_med = self.update_entries["tipo_de_documento_med"].get()
+        tipo_de_documento_med = self.update_entries["tipo_de_documento"].get()
         numero_timbrado_med = self.update_entries["número_timbrado"].get()
-        establecimiento_med = self.update_entries["establecimiento_med"].get()
+        establecimiento_med = self.update_entries["establecimiento"].get()
         punto_expedicion_med = self.update_entries["punto_expedición"].get()
         numero_documento_med = self.update_entries["número_documento"].get()
-        fecha_inicio_med = self.update_entries["fecha_inicio_med"].get()
+        fecha_inicio_med = self.update_entries["fecha_inicio"].get()
 
         # Validate required fields
         if not tipo_de_documento_med or not numero_timbrado_med:
